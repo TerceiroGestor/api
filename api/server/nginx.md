@@ -3,7 +3,7 @@ server {
         
 	server_name lab.com www.lab.com;
 	
-        root /var/www/terceirogestor/public;
+        root /var/www/terceirogestor/api/public;
         index index.php index.html;
         
 
