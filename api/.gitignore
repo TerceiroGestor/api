@@ -1,0 +1,8 @@
+/vendor
+.env
+.env.local
+.env.production
+/public/.htaccess
+*.log
+.idea
+.vscode
