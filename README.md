@@ -50,7 +50,7 @@ O TerceiroGestor API foi estruturado seguindo uma separação clara de responsab
 
 Essa organização permite que o projeto cresça de forma sustentável, mantendo o código limpo, previsível e de fácil manutenção.
 ```
-.
+./api
 ├── public/
 │   └── index.php
 ├── src/
@@ -63,21 +63,21 @@ Essa organização permite que o projeto cresça de forma sustentável, mantendo
 └── README.md
 
 
-src/Core/
+./api/src/Core/
 ├── Config/
 ├── Database/
 ├── Http/
 └── Router/
 
-src/routes.php
+./api/src/routes.php
 src/App/
 └── Controllers/
 
-src/Modules/
+./api/src/Modules/
 ├── Group/
 └── Person/
 
-src/Modules/Person/
+./api/src/Modules/Person/
 ├── PersonController.php
 └── PersonRepository.php
 ```
