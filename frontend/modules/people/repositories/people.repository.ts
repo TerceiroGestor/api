@@ -1,5 +1,5 @@
-import { api } from '@/services/api';
-import { Person } from '@/types/person';
+import { api } from '@/shared/services/api';
+import { Person } from '@/modules/people/types/person';
 
 export const PeopleRepository = {
   getAll(): Promise<Person[]> {
