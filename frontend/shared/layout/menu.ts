@@ -1,4 +1,5 @@
 import PeopleIcon from '@mui/icons-material/People'
+import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import DashboardIcon from '@mui/icons-material/Dashboard'
 
 export const menuItems = [
@@ -9,7 +10,12 @@ export const menuItems = [
   },
   {
     label: 'Pessoas',
-    path: '/people',
+    path: '/person',
     icon: PeopleIcon,
+  },
+  {
+    label: 'Tabelas',
+    path: '/tables',
+    icon: TableRowsTwoToneIcon,
   },
 ]
