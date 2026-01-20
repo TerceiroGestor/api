@@ -19,7 +19,6 @@ export function AppDataGrid({
     <Box sx={{ height, width: '100%' }}>
       <DataGrid
         showToolbar
-        disableRowSelectionOnClick
         pageSizeOptions={[5, 10, 25]}
         localeText={
           ptBR.components.MuiDataGrid.defaultProps.localeText

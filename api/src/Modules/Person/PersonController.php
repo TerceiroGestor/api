@@ -23,7 +23,6 @@ final class PersonController extends Controller
 {   
 
     private PersonRepository $repository;
-    
 
     public function __construct(Request $request)
     {
@@ -43,10 +42,18 @@ final class PersonController extends Controller
     /**
      * GET /people/{id}
      */
-    public function show($id): Response
+    public function show(string $id): Response
     {   
-        $data = $this->repository->find($id);
-        return Response::json([$data]);
+        $person = $this->repository
+        ->with('contacts')
+        ->with('relatives')
+        ->find($id);
+
+        if (!$person) {
+            return Response::json(['error' => 'Pessoa não encontrada'], 404);
+        }
+
+        return Response::json($person);
     }
 
     /**
@@ -117,7 +124,24 @@ final class PersonController extends Controller
     public function destroy($id): Response
     {   
         try {
-            $this->repository->delete($id);
+            $this->repository->destroy($id);
+
+            return Response::json([
+                'message' => 'Pessoa removida com sucesso',
+                'id' => $id
+            ], 200);
+
+        } catch (NotFoundException $e) {
+            return Response::json([
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+    public function activate($id): Response
+    {   
+        try {
+            $this->repository->activate($id);
 
             return Response::json([
                 'message' => 'Pessoa removida com sucesso',

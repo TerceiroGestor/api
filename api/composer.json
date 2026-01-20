@@ -5,5 +5,8 @@
             "Core\\": "src/Core/",
             "Modules\\":"src/Modules/"
         }
+    },
+    "require": {
+        "ramsey/uuid": "^4.9"
     }
 }

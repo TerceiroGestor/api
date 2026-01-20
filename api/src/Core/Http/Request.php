@@ -66,14 +66,14 @@ final class Request
         return $this->uri;
     }
 
-    public function input(string $key = null): mixed
+    public function input(?string $key = null): mixed
     {
         return $key
             ? ($this->body[$key] ?? null)
             : $this->body;
     }
 
-    public function query(string $key = null): mixed
+    public function query(?string $key = null): mixed
     {
         return $key
             ? ($this->query[$key] ?? null)

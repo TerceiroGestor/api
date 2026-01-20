@@ -1,7 +1,7 @@
-export async function api(
+export async function api<T>(
   endpoint: string,
   options?: RequestInit,
-){
+): Promise<T> {
   try {
 
     const response = await fetch(
@@ -16,7 +16,7 @@ export async function api(
       throw new Error(text);
     }
 
-    return response;
+    return response.json() as Promise<T>;
 
   } catch (error) {
     console.error("FETCH ERROR:", error);

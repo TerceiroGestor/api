@@ -6,6 +6,7 @@ namespace Core\Database;
 
 use PDO;
 use Core\Exceptions\NotFoundException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class BaseRepository
@@ -38,6 +39,26 @@ abstract class BaseRepository
      * @var string
      */
     protected string $table;
+
+    /** @var string[] */
+    protected array $relations = [];
+
+    public function with(string $relation): static
+    {
+        $this->relations[] = $relation;
+        return $this;
+    }
+
+    protected function loadRelations(array $entity): array
+    {
+        foreach ($this->relations as $relation) {
+            if (method_exists($this, $relation)) {
+                $entity[$relation] = $this->{$relation}($entity['id']);
+            }
+        }
+
+        return $entity;
+    }
 
     /**
      * Lista de colunas permitidas para busca dinâmica.
@@ -75,18 +96,23 @@ abstract class BaseRepository
     /**
      * Busca um registro pelo ID.
      *
-     * @param int $id
+     * @param string $id
      * @return array<string, mixed>|null
      */
-    public function find($id): ?array
+    public function find(string $id): ?array
     {
         $stmt = $this->pdo->prepare(
             "SELECT * FROM {$this->table} WHERE id = :id"
         );
-
         $stmt->execute(['id' => $id]);
 
-        return $stmt->fetch() ?: null;
+        $entity = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$entity) {
+            return null;
+        }
+
+        return $this->loadRelations($entity);
     }
 
     /**
@@ -120,6 +146,11 @@ abstract class BaseRepository
      */
     public function create(array $data): bool
     {
+        // Se não tiver ID, gera um UUID
+        if (!isset($data['id'])) {
+            $data['id'] = Uuid::uuid4()->toString();
+        }
+
         $columns = implode(', ', array_keys($data));
         $params  = ':' . implode(', :', array_keys($data));
 
@@ -139,7 +170,7 @@ abstract class BaseRepository
      * @throws \RuntimeException
      * @return void
      */
-    public function update($id, array $data): void
+    public function update(string $id, array $data): void
     {   
         if (empty($data)) {
             throw new \InvalidArgumentException('Nenhum dado fornecido para atualização');
@@ -172,10 +203,30 @@ abstract class BaseRepository
      * @param int $id
      * @return bool
      */
-    public function delete($id): void
+    public function destroy($id): void
     {
         $stmt = $this->pdo->prepare(
             "DELETE FROM {$this->table} WHERE id = :id"
+        );
+
+        $stmt->execute(['id' => $id]);
+
+        if ($stmt->rowCount() === 0) {
+            throw new NotFoundException("Registro não encontrado");
+        }
+    
+    }
+
+    /**
+     * Deleted
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function activate(string $id): void
+    {
+        $stmt = $this->pdo->prepare(
+            "UPDATE {$this->table} SET active = 0 WHERE id = :id"
         );
 
         $stmt->execute(['id' => $id]);

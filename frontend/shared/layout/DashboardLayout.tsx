@@ -1,8 +1,8 @@
 'use client'
-
 import { Box } from '@mui/material'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
+import { AlertProvider } from '@/shared/components/alert';
 
 export function DashboardLayout({
   children,
@@ -14,11 +14,9 @@ export function DashboardLayout({
       <Sidebar />
 
       <Box flex={1} display="flex" flexDirection="column">
-        <Topbar />
-
-        <Box p={3}>
-          {children}
-        </Box>
+          <AlertProvider>
+            {children}
+          </AlertProvider>
       </Box>
     </Box>
   )
