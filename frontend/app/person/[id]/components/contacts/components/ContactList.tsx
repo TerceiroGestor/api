@@ -1,7 +1,7 @@
 // components/ContactList.tsx
 "use client";
 
-import { ContactProps } from "./types";
+import { ContactProps } from "../types";
 import { CheckCircleOutline, DeleteForever, EditSquare} from "@mui/icons-material";
 import { Stack, Typography, IconButton } from "@mui/material";
 
@@ -22,12 +22,12 @@ export default function ContactList({ contacts, onEdit, onDelete }: Props) {
             spacing={1.5}
             alignItems="center"
           >
-            <Typography>{contact.number}</Typography>
-
-            {contact.main === true && (
+            {contact.main === 1 && (
               <CheckCircleOutline fontSize="small" color="success" />
             )}
 
+            <Typography>{contact.number}</Typography>
+            
             {onEdit && (
               <IconButton size="small" onClick={() => onEdit(contact)}>
                 <EditSquare fontSize="small" color="info"/>

@@ -6,8 +6,8 @@ import ConfirmDeleteDialog from "@/shared/components/ConfirmDeleteDialog";
 
 import ContactList from "./ContactList";
 import ContactDrawer from "./ContactDrawer";
-import { ContactProps } from "./types";
-import { DeleteContact } from "./actions";
+import { ContactProps } from "../types";
+import { DeleteContact } from "../actions";
 
 interface Props {
   personId: string;

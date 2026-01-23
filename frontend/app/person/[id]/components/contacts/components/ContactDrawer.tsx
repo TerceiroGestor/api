@@ -2,7 +2,7 @@
 
 import AppDrawer from "@/shared/components/AppDrawer";
 import ContactForm from "./ContactForm";
-import { ContactProps } from "./types";
+import { ContactProps } from "../types";
 
 interface Props {
   open: boolean;
@@ -28,6 +28,7 @@ export default function ContactDrawer({
         personId={personId}
         contact={contact}
       />
+      
     </AppDrawer>
   );
 }

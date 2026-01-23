@@ -3,24 +3,24 @@
 import { revalidatePath } from "next/cache";
 import { api } from "@/shared/services/api";
 
-export interface ContactInput{
+export interface FormInput{
   number: string;
   type: "Celular" | "Telefone" | "WhatsApp";
   main: 0 | 1;
   active: 0 | 1;
 }
 
-export async function SaveContact(
+export async function SaveForm(
   personId: string,
-  contactId: string | null,
-  data: ContactInput
+  formId: string | null,
+  data: FormInput
 ): Promise<void> {
 
-  const endpoint = contactId
-    ? `/person/${personId}/contacts/${contactId}`
-    : `/person/${personId}/contacts`;
+  const endpoint = formId
+    ? `/person/${personId}/Forms/${formId }`
+    : `/person/${personId}/Forms`;
 
-  const method = contactId ? "PUT" : "POST";
+  const method = formId ? "PUT" : "POST";
 
   await api(endpoint, {
     method,
@@ -31,8 +31,8 @@ export async function SaveContact(
   revalidatePath(`/person/${personId}`);
 }
 
-export async function DeleteContact(contactId: string, personId: string) {
-  await api(`/person/${personId}/contacts/${contactId}`, {
+export async function DeleteForm(formId: string, personId: string) {
+  await api(`/person/${personId}/Forms/${formId }`, {
     method: "DELETE",
   });
 

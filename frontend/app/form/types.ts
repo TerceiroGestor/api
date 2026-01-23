@@ -1,4 +1,4 @@
-export interface ContactProps {
+export interface FormProps {
   id: string;
   person_id: string;
   number: string;

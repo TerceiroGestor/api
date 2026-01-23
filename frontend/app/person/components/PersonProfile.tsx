@@ -5,7 +5,7 @@ import { PersonProps } from "../[id]/types";
 import PersonHeader from "../[id]/components/PersonHeader";
 import { PersonGeneralInfo } from "../[id]/components/PersonGeneralnfo";
 
-import ContactSection from "../[id]/components/contacts/ContactSection";
+import ContactSection from "../[id]/components/contacts/components/ContactSection";
 import RelativeList from "../[id]/components/RelativeList";
 
 
