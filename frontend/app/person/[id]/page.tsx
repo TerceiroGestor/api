@@ -1,8 +1,7 @@
-// app/person/[id]/page.tsx
-import PersonProfile from "./components/PersonProfile";
+import PersonProfile from "../components/PersonProfile";
 import AppBreadcrumbs from "@/shared/components/AppBreadcrumbs";
-import { PersonProps } from "../types";
-import { Show } from "../actions";
+import { PersonProps } from "./types";
+import { Show } from "./actions";
 
 interface PageProps {
   params: {
@@ -11,8 +10,10 @@ interface PageProps {
 }
 
 export default async function PersonDetail({ params }: PageProps) {
-  const {id} = await params;
+  
+  const { id } = await params;
   const person: PersonProps = await Show(id);
+  
   return (
      <>
       <AppBreadcrumbs

@@ -1,6 +1,6 @@
-
+import PersonProfile from "@/app/person/components/PersonProfile";
 import AppBreadcrumbs from "@/shared/components/AppBreadcrumbs";
-import { Show } from "@/app/person/actions";
+import { Show } from "./actions";
 
 interface PageProps {
   params: {
@@ -33,6 +33,7 @@ export default async function RelativeDetail({
         ]}
       />
 
+      <PersonProfile person={relative} />
     </>
   );
 }

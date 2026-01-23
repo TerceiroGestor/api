@@ -1,7 +1,7 @@
 // components/RelativeList.tsx
 "use client";
 import { PersonProps } from "../../types";
-import { RelativeProps } from "../../types";
+import { RelativeProps } from "./relatives";
 import { Typography, Stack, Chip } from "@mui/material";
 import { People } from "@mui/icons-material";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default function RelativeList({
   return (
     <>
       <Typography variant="subtitle1" fontWeight={600}>
-        Relacionamentos
+        Composição Familiar
       </Typography>
 
       <Stack spacing={1}>

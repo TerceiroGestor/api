@@ -64,10 +64,11 @@ final class ContactController extends Controller
         }
     }
 
-    public function activate(string $personId, string $contactId): Response
+    public function destroy(string $personId, string $contactId): Response
     {   
         try {
-            $this->repository->activate($contactId);
+            
+            $this->repository->destroy($contactId);
 
             return Response::json([
                 'message' => 'Contato removido com sucesso',

@@ -1,4 +1,4 @@
-
+import PersonProfile from "../../../components/PersonProfile";
 import AppBreadcrumbs from "@/shared/components/AppBreadcrumbs";
 import { Show } from "@/app/person/actions";
 
@@ -33,6 +33,7 @@ export default async function RelativeDetail({
         ]}
       />
 
+      <PersonProfile person={relative} />
     </>
   );
 }

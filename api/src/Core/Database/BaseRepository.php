@@ -84,13 +84,21 @@ abstract class BaseRepository
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findAll(): array
+    public function findAll(?array $columns = null): array
     {
+        $fields = '*';
+
+        if ($columns !== null) {
+            $columns = $this->filterAllowedColumns($columns);
+            $fields  = implode(', ', $columns);
+        }
+
         $stmt = $this->pdo->query(
-            "SELECT * FROM {$this->table}"
+        "SELECT {$fields} FROM {$this->table}"
         );
 
         return $stmt->fetchAll();
+
     }
 
     /**
@@ -203,7 +211,7 @@ abstract class BaseRepository
      * @param int $id
      * @return bool
      */
-    public function destroy($id): void
+    public function destroy(string $id): void
     {
         $stmt = $this->pdo->prepare(
             "DELETE FROM {$this->table} WHERE id = :id"
@@ -236,4 +244,28 @@ abstract class BaseRepository
         }
     
     }
+
+    /**
+     * Filtra colunas permitidas para consulta.
+     *
+     * @param array<int, string> $columns
+     * @return array<int, string>
+     */
+    protected function filterAllowedColumns(array $columns): array
+    {
+        $allowed = $this->allowedColumns();
+
+        $filtered = array_values(
+            array_intersect($columns, $allowed)
+        );
+
+        if (empty($filtered)) {
+            throw new \InvalidArgumentException(
+                'Nenhuma coluna permitida foi informada'
+            );
+        }
+
+        return $filtered;
+    }
+
 }

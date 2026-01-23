@@ -22,4 +22,4 @@ $router->delete('/person/{id}', [PersonController::class, 'activate']);
 
 $router->post('/person/{id}/contacts', [ContactController::class, 'store']);
 $router->put('/person/{id}/contacts/{contactId}', [ContactController::class, 'update']);
-$router->delete('/person/{id}/contacts/{contactId}', [ContactController::class, 'activate']);
+$router->delete('/person/{id}/contacts/{contactId}', [ContactController::class, 'destroy']);

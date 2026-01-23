@@ -1,5 +1,5 @@
-import { Update } from "../../actions";
-import { Show } from "../../actions";
+import { Update } from "../actions";
+import { Show } from "../actions";
 
 export default async function EditPersonPage({
   params,
