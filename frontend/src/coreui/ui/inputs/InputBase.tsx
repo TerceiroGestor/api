@@ -7,6 +7,7 @@ import { X } from "lucide-react";
 type InputBaseProps = {
   label?: string;
   value?: string;
+  placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   variant?: "default" | "error" | "success";
@@ -20,6 +21,7 @@ type InputBaseProps = {
 export function InputBase({
   label,
   value,
+  placeholder,
   onChange,
   onBlur,
   variant = "default",
@@ -54,7 +56,7 @@ export function InputBase({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
-          placeholder=" "
+          placeholder={placeholder}
           className={[
             inputBase,
             inputSizes[size],
