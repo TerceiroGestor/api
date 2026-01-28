@@ -7,6 +7,7 @@ import { listTasks, deleteTask } from "./task.service";
 import { TaskModal } from "./task.modal";
 import { PlusIcon, Edit, Trash } from "lucide-react";
 import { ConfirmDialog } from "@/coreui/ui/dialog/ConfirmDialog";
+import { AlertToast } from "@/coreui/ui/alert/AlertToast";
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,7 +16,13 @@ export default function TasksPage() {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const [deleting, setDeleting] = useState();
+
+  const [alert, setAlert] = useState<{
+    variant: "success" | "error";
+    title: string;
+    message: string;
+  } | null>(null);
 
   /* ======================================================
    * LOAD
@@ -80,9 +87,22 @@ export default function TasksPage() {
             />
 
             <DeleteButton
-              description={`Você realmente dezeja exluir "${task.title}"?`}
-              onConfirm={() => deleteTask(task.id)}
-              onSuccess={reloadTasks}
+              onDelete={() => deleteTask(task.id)}
+              onDeleted={() => {
+                reloadTasks();
+                setAlert({
+                  variant: "success",
+                  title: "Tarefa removida",
+                  message: "A tarefa foi excluída com sucesso.",
+                });
+              }}
+              onError={() =>
+                setAlert({
+                  variant: "error",
+                  title: "Erro",
+                  message: "Não foi possível excluir a tarefa.",
+                })
+              }
             />
           </div>
         </div>
@@ -93,8 +113,38 @@ export default function TasksPage() {
         open={open}
         task={selected}
         onClose={() => setOpen(false)}
-        onSuccess={reloadTasks}
+        onSuccess={(action) => {
+          reloadTasks();
+
+          if (action === "create") {
+            setAlert({
+              variant: "success",
+              title: "Tarefa criada",
+              message: "A tarefa foi criada com sucesso.",
+            });
+          }
+
+          if (action === "update") {
+            setAlert({
+              variant: "success",
+              title: "Tarefa atualizada",
+              message: "As alterações foram salvas com sucesso.",
+            });
+          }
+        }}
       />
+
+      {/* ALERT */}
+      {alert && (
+        <div className="fixed right-6 bottom-6 z-[9999]">
+          <AlertToast
+            variant={alert.variant}
+            title={alert.title}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        </div>
+      )}
     </>
   );
 }

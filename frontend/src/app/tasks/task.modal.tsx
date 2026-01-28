@@ -11,20 +11,20 @@ type TaskModalProps = {
   open: boolean;
   task?: Task | null;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (action: "create" | "update") => void;
 };
 
 export function TaskModal({ open, task, onClose, onSuccess }: TaskModalProps) {
-  
   async function handleSubmit(values: any) {
     if (task) {
       await updateTask(task.id, values);
+      onSuccess("update");
     } else {
       await createTask(values);
+      onSuccess("create");
     }
 
     onClose();
-    onSuccess();
   }
 
   return (
