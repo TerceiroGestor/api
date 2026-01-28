@@ -3,14 +3,17 @@
 import { useMemo, useState } from "react";
 import { FormEngineProps, FormField } from "./types";
 import { FieldRenderer } from "./fieldRenderers";
+import { Button } from "@/coreui/ui/button";
+import { Steps } from "@/coreui/ui/steps";
 
 export function FormEngine<T>({
+  id,
   fields,
   steps,
   initialValues,
   onSubmit,
-  renderFooter,
   disabled,
+  actions,
 }: FormEngineProps<T>) {
   /* ======================================================
    * INITIAL STATE
@@ -61,11 +64,23 @@ export function FormEngine<T>({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    console.log("submit", { currentStep, steps });
+
+    if (steps) {
+      const isLastStep = currentStep === steps.length - 1;
+
+      if (!isLastStep) {
+        setCurrentStep((s) => s + 1);
+        return;
+      }
+    }
+
     onSubmit(values);
   }
 
   /* ======================================================
-   * STEP RESOLUTION
+   * STEPS RESOLUTION
    * ====================================================== */
 
   const visibleFields = useMemo(() => {
@@ -75,22 +90,40 @@ export function FormEngine<T>({
     return fields.filter((field) => step.fields.includes(field.name));
   }, [fields, steps, currentStep]);
 
+  const stepItems = useMemo(() => {
+    if (!steps) return [];
+
+    return steps.map((step, index) => ({
+      id: String(index),
+      label: step.title,
+      description: typeof step.description === "string" ? step.description : undefined,
+    }));
+  }, [steps]);
+
+  const currentStepId = String(currentStep);
+
   /* ======================================================
    * RENDER
    * ====================================================== */
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form id={id} onSubmit={handleSubmit} className="space-y-6">
+      {/* STEPS */}
       {steps && (
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{steps[currentStep].title}</h2>
-
-          <span className="text-sm text-gray-500">
-            {currentStep + 1} / {steps.length}
-          </span>
-        </div>
+        <Steps
+          steps={stepItems}
+          current={currentStepId}
+          onChange={(id) => {
+            const index = Number(id);
+            if (!Number.isNaN(index)) {
+              setCurrentStep(index);
+            }
+          }}
+          className="mb-6"
+        />
       )}
 
+      {/* FIELDS */}
       {visibleFields.map((field) => (
         <FieldRenderer
           key={field.name}
@@ -101,23 +134,62 @@ export function FormEngine<T>({
         />
       ))}
 
-      <div className="flex justify-between pt-4">
-        {steps && currentStep > 0 && (
-          <button type="button" onClick={() => setCurrentStep((s) => s - 1)}>
-            Voltar
-          </button>
-        )}
+      {/* FOOTER */}
+      <div className="border-t pt-4">
+        {steps ? (
+          /* FORM COM STEPS */
+          <div className="flex justify-between">
+            {/* VOLTAR */}
+            {currentStep > 0 && (
+              <Button
+                label="Voltar"
+                variant="secondary"
+                action={{
+                  type: "callback",
+                  onClick: () => setCurrentStep((s) => s - 1),
+                }}
+              />
+            )}
 
-        {steps && currentStep < steps.length - 1 ? (
-          <button type="button" onClick={() => setCurrentStep((s) => s + 1)}>
-            Próximo
-          </button>
+            {/* PRÓXIMO / SALVAR */}
+            <Button
+              label={
+                currentStep < steps.length - 1 ? "Próximo" : (actions?.submit?.label ?? "Salvar")
+              }
+              variant={
+                currentStep < steps.length - 1
+                  ? "secondary"
+                  : (actions?.submit?.variant ?? "primary")
+              }
+              action={{ type: "submit" }} // 🔥 SEMPRE submit
+            />
+          </div>
         ) : (
-          <button type="submit">Salvar</button>
+          /* FORM SEM STEPS */
+          actions && (
+            <div className="flex justify-end gap-3">
+              {actions.cancel && (
+                <Button
+                  label={actions.cancel.label ?? "Cancelar"}
+                  variant={actions.cancel.variant ?? "secondary"}
+                  action={{
+                    type: "callback",
+                    onClick: actions.cancel.onClick!,
+                  }}
+                />
+              )}
+
+              {actions.submit && (
+                <Button
+                  label={actions.submit.label ?? "Salvar"}
+                  variant={actions.submit.variant ?? "primary"}
+                  action={{ type: "submit" }}
+                />
+              )}
+            </div>
+          )
         )}
       </div>
-
-      {renderFooter}
     </form>
   );
 }

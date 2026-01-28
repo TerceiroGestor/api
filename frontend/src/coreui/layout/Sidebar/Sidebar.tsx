@@ -1,6 +1,6 @@
 "use client";
 
-import { mainMenu, othersMenu, tools } from "./sidebar.data";
+import { mainMenu, tools } from "./sidebar.data";
 import { SidebarHeader } from "./SidebarHeader";
 import { SidebarSection } from "./SidebarSection";
 import { useSidebar } from "./SidebarContext";
@@ -22,7 +22,6 @@ export function Sidebar() {
       {/* ÁREA COM SCROLL */}
       <nav className="scrollbar-soft flex-1 space-y-6 overflow-y-auto px-4 py-4">
         <SidebarSection title="Menu" items={mainMenu} />
-        <SidebarSection title="Others" items={othersMenu} />
         <SidebarSection title="Tools UI" items={tools} />
       </nav>
     </aside>

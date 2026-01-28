@@ -9,3 +9,4 @@ export * from "./InputCPF";
 export * from "./InputRG";
 export * from "./InputCEP";
 export * from "./InputTextarea";
+export * from "./InputDate";

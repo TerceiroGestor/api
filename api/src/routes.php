@@ -4,6 +4,7 @@ declare(strict_types=1);
 use App\Controllers\HealthController;
 use Modules\Person\PersonController;
 use Modules\Contact\ContactController;
+use Modules\Task\TaskController;
 
 /** @var Core\Router\Router $router */
 
@@ -23,3 +24,9 @@ $router->delete('/person/{id}', [PersonController::class, 'activate']);
 $router->post('/person/{id}/contacts', [ContactController::class, 'store']);
 $router->put('/person/{id}/contacts/{contactId}', [ContactController::class, 'update']);
 $router->delete('/person/{id}/contacts/{contactId}', [ContactController::class, 'destroy']);
+
+//Tasks
+$router->get('/tasks', [TaskController::class, 'index']);
+$router->post('/tasks', [TaskController::class, 'store']);
+$router->put('/tasks/{id}', [TaskController::class, 'update']);
+$router->delete('/tasks/{id}', [TaskController::class, 'destroy']);

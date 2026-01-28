@@ -1,7 +1,7 @@
 import React from "react";
 import { FormField } from "./types";
 
-import { InputDefault, InputMoney, InputCPF } from "@coreui/ui/inputs";
+import { InputDefault, InputMoney, InputCPF, InputDate } from "@coreui/ui/inputs";
 import { Toggle } from "@/coreui/ui/check";
 import { Select, MultiSelect } from "@/coreui/ui/select";
 import { RichText } from "@/coreui/ui/richtext/RichText";
@@ -48,10 +48,17 @@ export function FieldRenderer<T>({ field, value, disabled, onChange }: FieldRend
     case "cpf":
       return <InputCPF value={value} disabled={isDisabled} onChange={handleChange} />;
 
-    case "boolean":
+    case "boolean": {
+      const persistAs = field.persistAs ?? "boolean";
       return (
-        <Toggle label={field.label} value={value} disabled={isDisabled} onChange={handleChange} />
+        <Toggle
+          label={field.label}
+          value={value}
+          disabled={isDisabled}
+          onChange={(v) => handleChange(persistAs === "number" ? (v ? 1 : 0) : v)}
+        />
       );
+    }
 
     case "select":
       return (
@@ -75,6 +82,9 @@ export function FieldRenderer<T>({ field, value, disabled, onChange }: FieldRend
 
     case "richtext":
       return <RichText value={value} disabled={isDisabled} onChange={handleChange} />;
+
+    case "date":
+      return <InputDate value={value} disabled={isDisabled} onChange={onChange} />;
 
     default:
       return null;

@@ -14,19 +14,20 @@ export function ButtonActionExecutor({ action, disabled, children }: ButtonActio
 
   switch (action.type) {
     case "submit":
+      return children({ type: "submit" });
+
     case "reset":
-    case "button":
-      return children({ type: action.type });
+      return children({ type: "reset" });
 
     case "callback":
       return children({
-        type: "button",
+        type: "button", // 🔥 FIX CRÍTICO
         onClick: disabled ? undefined : action.onClick,
       });
 
     case "navigate":
       return children({
-        type: "button",
+        type: "button", // 🔥 FIX CRÍTICO
         onClick: disabled
           ? undefined
           : () => {

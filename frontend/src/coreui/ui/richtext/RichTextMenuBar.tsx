@@ -43,7 +43,7 @@ export function RichTextMenuBar({ editor }: { editor: Editor }) {
           disabled={!state.canCode}
           className={state.isCode ? "active" : ""}
         >
-          {"</>"}
+          {"[A]"}
         </button>
       </div>
 

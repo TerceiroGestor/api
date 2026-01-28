@@ -4,6 +4,7 @@ import { ReactNode } from "react";
  * FIELD TYPES
  * ====================================================== */
 
+
 export type FieldType =
   | "text"
   | "number"
@@ -12,7 +13,8 @@ export type FieldType =
   | "boolean"
   | "select"
   | "multiselect"
-  | "richtext";
+  | "richtext"
+  | "date";
 
 /* ======================================================
  * BASE FIELD
@@ -47,12 +49,17 @@ export interface TextField<T = any> extends BaseField<T> {
   placeholder?: string;
 }
 
+export interface DateField<T = any> extends BaseField<T> {
+  type: "date";
+}
+
 /* ======================================================
  * BOOLEAN (checkbox / switch)
  * ====================================================== */
 
 export interface BooleanField<T = any> extends BaseField<T> {
   type: "boolean";
+  persistAs?: "boolean" | "number";
 }
 
 /* ======================================================
@@ -81,7 +88,12 @@ export interface RichTextField<T = any> extends BaseField<T> {
  * FORM FIELD UNION (CORE)
  * ====================================================== */
 
-export type FormField<T = any> = TextField<T> | BooleanField<T> | SelectField<T> | RichTextField<T>;
+export type FormField<T = any> =
+  | TextField<T>
+  | BooleanField<T>
+  | SelectField<T>
+  | RichTextField<T>
+  | DateField<T>;
 
 /* ======================================================
  * FORM STEPS
@@ -102,7 +114,20 @@ export interface FormStep {
  * FORM ENGINE PROPS
  * ====================================================== */
 
+export type FormAction = {
+  label?: string;
+  onClick?: () => void;
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+};
+
+export type FormActions = {
+  submit?: FormAction;
+  cancel?: FormAction;
+};
+
 export interface FormEngineProps<T = any> {
+  id?: string;
+
   /** Lista de campos do formulário */
   fields: FormField<T>[];
 
@@ -120,4 +145,6 @@ export interface FormEngineProps<T = any> {
 
   /** Desabilita todo o formulário */
   disabled?: boolean;
+
+  actions?: FormActions;
 }

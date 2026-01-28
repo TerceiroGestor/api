@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
 interface ButtonProps {
+  label?: string;
   children: ReactNode; // Button text or content
   size?: "sm" | "md"; // Button size
   variant?: "primary" | "outline"; // Button variant
@@ -12,6 +13,7 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
+  label,
   children,
   size = "md",
   variant = "primary",
@@ -44,7 +46,7 @@ const Button: React.FC<ButtonProps> = ({
       }`}
       onClick={onClick}
       disabled={disabled}
-    >
+    >{label}
       {startIcon && <span className="flex items-center">{startIcon}</span>}
       {children}
       {endIcon && <span className="flex items-center">{endIcon}</span>}

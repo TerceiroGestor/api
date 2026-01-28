@@ -18,6 +18,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       action,
       className,
       disabled,
+      type = "button", // 👈 agora permitido
       ...props
     },
     ref
@@ -29,6 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {(actionProps) => (
           <button
             ref={ref}
+            type={type}
             className={cn(
               baseStyles,
               variantStyles[variant],
