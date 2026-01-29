@@ -4,6 +4,7 @@ Este documento descreve como criar, configurar e gerenciar o serviço do Fronten
 
 ## ⚙️ 1. Criar o serviço systemd
 
+```bash
 nano /etc/systemd/system/frontend.service
 
 [Unit]
@@ -22,8 +23,13 @@ Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target
 
+```
+
 
 ## 🔄 2. Recarregar o systemd
+
+```bash
+
 systemctl daemon-reexec
 systemctl daemon-reload
 
@@ -32,11 +38,21 @@ systemctl start frontend.service
 
 systemctl status frontend.service
 
+```
+
 ## 📜 3. Ver logs do serviço
+
+```bash
 
 journalctl -u frontend.service -f
 journalctl -u frontend.service --since "10 minutes ago"
 
+```
+
 
 ## 🔐 4. Permissões recomendadas
+
+```bash
 chown -R www-data:www-data /var/www/api/frontend
+
+```

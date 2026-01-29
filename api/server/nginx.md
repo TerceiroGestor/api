@@ -1,5 +1,13 @@
+
+## Config Nginx
+
+```bash
+nano /etc/nginx/sites-enable/default
+
+```
+```bash
 server {
-        listen 127.0.0.1:8000 default_server;
+    listen 127.0.0.1:8000 default_server;
         
 	server_name lab.com www.lab.com;
 	
@@ -49,3 +57,4 @@ server {
         proxy_read_timeout 30s;
     }
 }
+```
