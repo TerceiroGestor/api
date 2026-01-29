@@ -5,10 +5,10 @@
 DB_DRIVER='mysql'
 DB_HOST='localhost'
 DB_PORT='3306'
-DB_NAME='terceirogestor'
+DB_NAME='database'
 DB_CHARSET='utf8mb4'
-DB_USER='terceirogestor'
-DB_PASS='7OFq2P9-Bv72'
+DB_USER='user'
+DB_PASS='password'
 
 ```
 
